@@ -38,28 +38,40 @@ setp pwmgen.0.dither-pwm true
 net dout-02 <= motion.digital-out-02
 net din-02 => motion.digital-in-02
 
-net laser-chiller => parport.0.pin-01-out
+
+net xenable => parport.0.pin-01-out
+
 net xstep => parport.0.pin-02-out
 setp parport.0.pin-02-out-reset 1
+
 net xdir => parport.0.pin-03-out
 setp parport.0.pin-03-out-invert 1
+
 net ystep => parport.0.pin-04-out
 setp parport.0.pin-04-out-reset 1
+
 net ydir => parport.0.pin-05-out
 setp parport.0.pin-05-out-invert 1
+
 net ustep => parport.0.pin-06-out
 setp parport.0.pin-06-out-reset 1
+
 net udir => parport.0.pin-07-out
 setp parport.0.pin-07-out-invert 1
-net dout-02 => parport.0.pin-08-out
-net laser-pwm => parport.0.pin-14-out
-net xenable => parport.0.pin-16-out
-net laser-final => parport.0.pin-17-out
 
-net home-x <= parport.0.pin-15-in
+net dout-02 => parport.0.pin-08-out
+
+net laser-final => parport.0.pin-09-out
+
 net home-y <= parport.0.pin-10-in
 
 net din-02 <= parport.0.pin-13-in
+
+net laser-pwm => parport.0.pin-14-out
+
+net home-x <= parport.0.pin-15-in
+
+net laser-chiller => parport.0.pin-17-out
 
 # based on Pololu drivers with Allegro drivers (1us ea hi/lo step, 200ns dir setup/hold)
 setp stepgen.0.position-scale [AXIS_0]SCALE
