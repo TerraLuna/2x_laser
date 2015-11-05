@@ -40,6 +40,7 @@ net din-02 => motion.digital-in-02
 
 
 net xenable => parport.0.pin-01-out
+setp parport.0.pin-01-out-invert 1
 
 net xstep => parport.0.pin-02-out
 setp parport.0.pin-02-out-reset 1
