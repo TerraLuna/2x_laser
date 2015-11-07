@@ -13,7 +13,7 @@ P, Q = map(lambda x: float(x), sys.argv[1:])
 try:
     INI_FILE_NAME = os.environ['INI_FILE_NAME']
 except KeyError:
-    INI_FILE_NAME = '2x_Laser.ini'
+    INI_FILE_NAME = '2x_laser.ini'
 
 try:
     ini = linuxcnc.ini(INI_FILE_NAME)
