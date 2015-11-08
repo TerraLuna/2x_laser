@@ -39,6 +39,24 @@ net dout-02 <= motion.digital-out-02
 net din-02 => motion.digital-in-02
 
 
+
+
+
+########################
+# combined laser enable and pwm output
+
+loadrt and2 names=laser-poop-and
+addf laser-poop-and laser-thread
+
+#net laser-pwm => laser-poop-and.in0
+net laser-pwm => laser-poop-and.in0
+net laser-final => laser-poop-and.in1
+net laser-poop <= laser-poop-and.out
+
+
+
+
+
 net xenable => parport.0.pin-01-out
 setp parport.0.pin-01-out-invert 1
 
@@ -62,7 +80,8 @@ setp parport.0.pin-07-out-invert 1
 
 net dout-02 => parport.0.pin-09-out
 
-net laser-final => parport.0.pin-08-out
+#net laser-final => parport.0.pin-08-out
+net laser-poop => parport.0.pin-08-out
 
 net home-y <= parport.0.pin-10-in
 
@@ -252,3 +271,5 @@ setp laser-chiller-oneshot.falling 1
 net laser-master        => laser-chiller-or.in0
 net laser-chiller-extra => laser-chiller-or.in1
 net laser-chiller       <= laser-chiller-or.out
+
+
