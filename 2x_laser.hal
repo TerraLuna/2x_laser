@@ -48,7 +48,6 @@ net din-02 => motion.digital-in-02
 loadrt and2 names=laser-poop-and
 addf laser-poop-and laser-thread
 
-#net laser-pwm => laser-poop-and.in0
 net laser-pwm => laser-poop-and.in0
 net laser-final => laser-poop-and.in1
 net laser-poop <= laser-poop-and.out
@@ -60,16 +59,16 @@ net laser-poop <= laser-poop-and.out
 net xenable => parport.0.pin-01-out
 setp parport.0.pin-01-out-invert 1
 
-net xstep => parport.0.pin-02-out
+net ystep => parport.0.pin-02-out
 setp parport.0.pin-02-out-reset 1
 
-net xdir => parport.0.pin-03-out
+net ydir => parport.0.pin-03-out
 setp parport.0.pin-03-out-invert 1
 
-net ystep => parport.0.pin-04-out
+net xstep => parport.0.pin-04-out
 setp parport.0.pin-04-out-reset 1
 
-net ydir => parport.0.pin-05-out
+net xdir => parport.0.pin-05-out
 setp parport.0.pin-05-out-invert 1
 
 net ustep => parport.0.pin-06-out
@@ -83,13 +82,13 @@ net dout-02 => parport.0.pin-09-out
 #net laser-final => parport.0.pin-08-out
 net laser-poop => parport.0.pin-08-out
 
-net home-y <= parport.0.pin-10-in
+net home-y <= parport.0.pin-15-in
 
 net din-02 <= parport.0.pin-13-in
 
 net laser-pwm => parport.0.pin-14-out
 
-net home-x <= parport.0.pin-15-in
+net home-x <= parport.0.pin-10-in
 
 net laser-chiller => parport.0.pin-17-out
 
