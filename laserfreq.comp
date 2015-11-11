@@ -17,40 +17,40 @@ license "GPL";
 ;;
 FUNCTION(update) {
     if (velocity == 0.0 || pulse_per_unit == 0) {
-	updated = 0;
+        updated = 0;
     } else {
-	// velocity * pulse-per-unit gives pulses per second
-	// pulse interval is then 1/pps 
-	interval = 1.0 / (velocity * pulse_per_unit);
-	if (min_off_duration > 0 && interval < min_off_duration + duration)
-	    interval = min_off_duration + duration;
+        // velocity * pulse-per-unit gives pulses per second
+        // pulse interval is then 1/pps 
+        interval = 1.0 / (velocity * pulse_per_unit);
+        if (min_off_duration > 0 && interval < min_off_duration + duration)
+            interval = min_off_duration + duration;
 
-	updated = 1;
+        updated = 1;
     }
 }
 
 FUNCTION(make_pulses) {
     if (!enable || !updated) {
-	accum = 0;
-	pulse_remain = 0;
-	pulse = 0;
-	continuous = 0;
-	return;
+        accum = 0;
+        pulse_remain = 0;
+        pulse = 0;
+        continuous = 0;
+        return;
     }
 
     accum += fperiod;
     if (accum > interval) {
-	accum -= interval;
-	if (accum > interval)
-	    accum = 0.0;
-	continuous = (pulse_remain > 0);
-	pulse_remain = duration;
+        accum -= interval;
+        if (accum > interval)
+            accum = 0.0;
+        continuous = (pulse_remain > 0);
+        pulse_remain = duration;
     }
 
     if (pulse_remain > 0) {
-	pulse = 1;
-	pulse_remain -= fperiod;
+        pulse = 1;
+        pulse_remain -= fperiod;
     } else {
-	pulse = 0;
+        pulse = 0;
     }
 }

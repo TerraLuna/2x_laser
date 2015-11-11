@@ -38,10 +38,6 @@ setp pwmgen.0.dither-pwm true
 net dout-02 <= motion.digital-out-02
 net din-02 => motion.digital-in-02
 
-
-
-
-
 ########################
 # combined laser enable and pwm output
 
