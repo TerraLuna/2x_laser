@@ -49,9 +49,6 @@ net laser-final => laser-poop-and.in1
 net laser-poop <= laser-poop-and.out
 
 
-
-
-
 net xenable => parport.0.pin-01-out
 setp parport.0.pin-01-out-invert 1
 
