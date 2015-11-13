@@ -10,7 +10,7 @@ loadrt [EMCMOT]EMCMOT base_period_nsec=[EMCMOT]BASE_PERIOD servo_period_nsec=[EM
 loadrt hal_parport cfg="0x378 out"
 setp parport.0.reset-time 1000
 loadrt stepgen step_type=0,0,0
-loadrt pwmgen output_type=0
+loadrt pwmgen output_type=0,0
 
 addf parport.0.read base-thread
 addf stepgen.make-pulses base-thread
@@ -42,10 +42,6 @@ net din-02 => motion.digital-in-02
 # motion-tied PWM generation                                                  #
 ###############################################################################
 
-loadrt pwmgen output_type=0
-addf pwmgen-variable-freq.make-pulses base-thread
-addf pwmgen-variable-freq.update servo-thread
-
 loadrt invert
 addf invert.0 servo-thread
 
@@ -64,14 +60,14 @@ net velocity-scaled  <=  velocity-scaler.out
 
 net velocity-scaled  =>  scaled-pwm-duty-cycle.in0
 net laser-power-cmd  =>  scaled-pwm-duty-cycle.in1
-net scaled-pwm  <=  scaled-pwm-duty-cycle.out  =>  pwmgen-variable-freq.0.value
+net scaled-pwm  <=  scaled-pwm-duty-cycle.out  =>  pwmgen.1.value
 
-net pwm-freq  =>  pwmgen-variable-freq.0.pwm-freq
+net pwm-freq  =>  pwmgen.1.pwm-freq
 net pwm-freq  <=  motion.analog-out-01
-setp pwmgen-variable-freq.0.enable 1
-setp pwmgen-variable-freq.0.scale 1
-setp pwmgen-variable-freq.0.offset 0
-setp pwmgen-variable-freq.0.dither-pwm true
+setp pwmgen.1.enable 1
+setp pwmgen.1.scale 1
+setp pwmgen.1.offset 0
+setp pwmgen.1.dither-pwm true
 
 
 
