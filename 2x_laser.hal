@@ -77,8 +77,8 @@ setp pwmgen.1.dither-pwm true
 loadrt and2 names=laser-poop-and
 addf laser-poop-and laser-thread
 
-net laser-pwm => laser-poop-and.in0
-net laser-final => laser-poop-and.in1
+net laser-final  =>  laser-poop-and.in0
+net pwm-output  <=  pwmgen.1.pwm  =>  laser-poop-and.in1
 net laser-poop <= laser-poop-and.out
 
 
@@ -106,8 +106,7 @@ setp parport.0.pin-07-out-invert 1
 net dout-02 => parport.0.pin-09-out
 
 ##net laser-final => parport.0.pin-08-out
-#net laser-poop => parport.0.pin-08-out
-net pwm-output  <=  pwmgen.1.pwm  =>  parport.0.pin-08-out
+net laser-poop => parport.0.pin-08-out
 
 net home-y <= parport.0.pin-15-in
 
