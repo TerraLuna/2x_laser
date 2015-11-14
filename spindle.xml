@@ -16,10 +16,10 @@
     </bar>
 
     <label>
-        <text>"Laser firing"</text>
+        <text>"Aux systems"</text>
     </label>
     <led>
-        <halpin>"laser-firing"</halpin>
+        <halpin>"aux-systems"</halpin>
     </led>
 
 

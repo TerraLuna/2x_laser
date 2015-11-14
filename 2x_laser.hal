@@ -112,11 +112,13 @@ net home-y <= parport.0.pin-15-in
 
 net din-02 <= parport.0.pin-13-in
 
-net laser-pwm => parport.0.pin-14-out
+net air-assist => parport.0.pin-14-out
+
+net fume-extractor => parport.0.pin-16-out
 
 net home-x <= parport.0.pin-10-in
 
-net laser-chiller => parport.0.pin-17-out
+#net laser-chiller => parport.0.pin-17-out
 
 # based on Pololu drivers with Allegro drivers (1us ea hi/lo step, 200ns dir setup/hold)
 setp stepgen.0.position-scale [AXIS_0]SCALE
@@ -168,7 +170,7 @@ net tool-prepare-loop iocontrol.0.tool-prepare => iocontrol.0.tool-prepared
 ########################
 
 # M3/M5, not realtime/coordinated but master on/off:
-net laser-master <= motion.spindle-on
+net spindle-on <= motion.spindle-on
 
 # M62/M63 coordinated or M64/M65 immediate firing:
 net laser-dout <= motion.digital-out-00
@@ -234,13 +236,13 @@ net raster-pos-gt  <= raster-pos-gt-comp.out
 
 # equation for reading the stream:
 # 1) XXX you can't avoid reading when empty or the state never changes
-# 2) flush (read all) when not running (M5 / laser-master off)
+# 2) flush (read all) when not running (M5 / spindle-on off)
 # 3) when the laser position passes the target position in the right direction
-# raster-read := (~laser-master | (raster-pos-gt ^ raster-rev))
+# raster-read := (~spindle-on | (raster-pos-gt ^ raster-rev))
 #setp raster-read-lut.function 0x15511551 (with raster-empty)
 setp raster-read-lut.function 0x3ff33ff3
 net raster-empty  => raster-read-lut.in-0
-net laser-master  => raster-read-lut.in-1
+net spindle-on  => raster-read-lut.in-1
 net raster-pos-gt => raster-read-lut.in-2
 net raster-rev    => raster-read-lut.in-3
 net raster-read   <= raster-read-lut.out
@@ -263,10 +265,10 @@ net laser-magic-z <= laser-magic-z-comp.out
 
 ########################
 
-# Final laser equation:  When laser-master is enabled (M3) fire for
+# Final laser equation:  When spindle-on is enabled (M3) fire for
 # raster or at pulse rate when cutting:
 #
-# laser-final <= laser-master &
+# laser-final <= spindle-on &
 #                    (laser-raster |
 #                   ((laser-magic-z | laser-dout) & laser-pulsed))
 
@@ -275,26 +277,33 @@ net  laser-raster      => laser-final-lut.in-0
 net  laser-dout        => laser-final-lut.in-1
 net  laser-magic-z     => laser-final-lut.in-2
 net  laser-pulsed      => laser-final-lut.in-3
-net  laser-master      => laser-final-lut.in-4
+net  spindle-on      => laser-final-lut.in-4
 net laser-final <= laser-final-lut.out
 
-########################
-# chiller/assist-air control
 
-loadrt oneshot names=laser-chiller-oneshot
-loadrt or2 names=laser-chiller-or
-addf laser-chiller-oneshot servo-thread
-addf laser-chiller-or servo-thread
+###############################################################################
+# ventilation / air assist control                                            #
+###############################################################################
 
-net laser-master        => laser-chiller-oneshot.in
-net laser-chiller-extra <= laser-chiller-oneshot.out
-setp laser-chiller-oneshot.retriggerable 1
-setp laser-chiller-oneshot.width [LASER]EXTRA_CHILLER_TIME
-setp laser-chiller-oneshot.rising 0
-setp laser-chiller-oneshot.falling 1
+# turn on the aux systems 3s before motion starts and 3s after the spindle stops
 
-net laser-master        => laser-chiller-or.in0
-net laser-chiller-extra => laser-chiller-or.in1
-net laser-chiller       <= laser-chiller-or.out
+loadrt timedelay names=timedelay-air-assist,timedelay-fume-extractor,timedelay-spindle-on-pause
+addf timedelay-aux-systems servo-thread
+addf timedelay-spindle-on-pause servo-thread
+addf timedelay-fume-extractor servo-thread
 
+setp timedelay-air-assist.on-delay 0
+setp timedelay-air-assist.off-delay 3
+net spindle-on  =>  timedelay-air-assist.in
+net air-assist  <=  timedelay-air-assist.out
 
+setp timedelay-fume-extractor.on-delay 1
+setp timedelay-fume-extractor.off-delay 2
+net spindle-on  =>  timedelay-air-assist.in
+net fume-extractor  <=  timedelay-fume-extractor.out
+
+setp timedelay-spindle-on-pause.on-delay 3
+setp timedelay-spindle-on-pause.off-delay 0
+
+net spindle-on  =>  timedelay-spindle-on-pause.in
+net spindle-at-speed  =>  timedelay-spindle-on-pause.out

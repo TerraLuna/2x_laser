@@ -10,6 +10,6 @@ net current-vel-ipm  <=  ips-to-ipm.out  =>  pyvcp.velocity
 
 net motion-requested-vel  =>  pyvcp.velocity-requested
 
-net laser-poop  =>  pyvcp.laser-firing
+net aux-systems  =>  pyvcp.aux-systems
 
 net scaled-pwm  =>  pyvcp.scaled-pwm 
