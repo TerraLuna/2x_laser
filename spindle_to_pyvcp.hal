@@ -1,0 +1,15 @@
+net laser-freq  =>  pyvcp.spindle-speed
+net laser-power-cmd  =>  pyvcp.laser-duty-cycle
+
+#loadrt mult2 names=ips-to-ipm
+addf ips-to-ipm servo-thread
+
+setp ips-to-ipm.in0 60
+net current-vel  =>  ips-to-ipm.in1
+net current-vel-ipm  <=  ips-to-ipm.out  =>  pyvcp.velocity
+
+net motion-requested-vel  =>  pyvcp.velocity-requested
+
+net laser-poop  =>  pyvcp.laser-firing
+
+net scaled-pwm  =>  pyvcp.scaled-pwm 

@@ -1,0 +1,50 @@
+<pyvcp>
+    <label>
+        <text>"Spindle speed:"</text>
+    </label>
+    <bar>
+        <halpin>"spindle-speed"</halpin>
+        <max_>800</max_>
+    </bar>
+
+    <label>
+        <text>"Laser duty cycle:"</text>
+    </label>
+    <bar>
+        <halpin>"laser-duty-cycle"</halpin>
+        <max_>1</max_>
+    </bar>
+
+    <label>
+        <text>"Laser firing"</text>
+    </label>
+    <led>
+        <halpin>"laser-firing"</halpin>
+    </led>
+
+
+    <label>
+        <text>"Velocity:"</text>
+    </label>
+    <bar>
+        <halpin>"velocity"</halpin>
+        <max_>1200</max_>
+    </bar>
+
+    <label>
+        <text>"Velocity (requested):"</text>
+    </label>
+    <bar>
+        <halpin>"velocity-requested"</halpin>
+        <max_>1200</max_>
+    </bar>
+
+    <label>
+        <text>"Scaled PWM:"</text>
+    </label>
+    <bar>
+        <halpin>"scaled-pwm"</halpin>
+        <max_>1</max_>
+    </bar>
+
+</pyvcp>
