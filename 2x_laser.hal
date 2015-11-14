@@ -105,15 +105,15 @@ setp parport.0.pin-07-out-invert 1
 
 net dout-02 => parport.0.pin-09-out
 
-#net laser-final => parport.0.pin-08-out
-net laser-poop => parport.0.pin-08-out
+##net laser-final => parport.0.pin-08-out
+#net laser-poop => parport.0.pin-08-out
+net pwm-output  <=  pwmgen.1.pwm  =>  parport.0.pin-08-out
 
 net home-y <= parport.0.pin-15-in
 
 net din-02 <= parport.0.pin-13-in
 
-#net laser-pwm => parport.0.pin-14-out
-net pwm-output  <=  pwmgen.1.pwm  =>  parport.0.pin-14-out
+net laser-pwm => parport.0.pin-14-out
 
 net home-x <= parport.0.pin-10-in
 
