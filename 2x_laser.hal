@@ -288,9 +288,9 @@ net laser-final <= laser-final-lut.out
 # turn on the aux systems 3s before motion starts and 3s after the spindle stops
 
 loadrt timedelay names=timedelay-air-assist,timedelay-fume-extractor,timedelay-spindle-on-pause
-addf timedelay-aux-systems servo-thread
-addf timedelay-spindle-on-pause servo-thread
+addf timedelay-air-assist servo-thread
 addf timedelay-fume-extractor servo-thread
+addf timedelay-spindle-on-pause servo-thread
 
 setp timedelay-air-assist.on-delay 0
 setp timedelay-air-assist.off-delay 3
