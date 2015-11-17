@@ -9,14 +9,20 @@ def app():
 def image_not_found(P):
     import tkFileDialog, tkMessageBox
     app()
-    tkMessageBox.showwarning(title='M144 Raster Image Not Found',
-	message='Could not find image *-%u.*\nafter searching [RASTER]IMAGE_PATH (default $HOME)' % P)
-    name = tkFileDialog.askopenfilename(title='M144 Raster Image',
-	initialfile='%u' % P,
-	filetypes=[('Images',('*.png', '*.gif', '*.jpg', '*.tif', '*.bmp')),
-	           ('Any File', '*.*')])
+    tkMessageBox.showwarning(
+            title='M144 Raster Image Not Found',
+            message='Could not find image *-%u.*\nafter searching [RASTER]IMAGE_PATH (default $HOME)' % P)
+    name = tkFileDialog.askopenfilename(
+            title='M144 Raster Image',
+            initialfile='%u' % P,
+            filetypes=[
+                ('Images',
+                    ('*.png', '*.gif', '*.jpg', '*.tif', '*.bmp')),
+                ('Any File', '*.*')
+                ]
+            )
     if not name:
-	sys.exit(2)
+        sys.exit(2)
     return name
 
 
