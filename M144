@@ -8,7 +8,7 @@ from raster_utils import *
 from raster_gui import *
 import linuxcnc
 
-P, Q = map(lambda x: float(x), sys.argv[1:])
+P, Q = map(float, sys.argv[1:])
 
 try:
     INI_FILE_NAME = os.environ['INI_FILE_NAME']
