@@ -3,6 +3,8 @@
 import sys
 from raster_utils import *
 
+set_lock()
+
 P, Q = map(float, sys.argv[1:])
 print 'M145 P=%g Q=%g' % (P, Q)
 send_params(P, Q)

@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 
-import os, re
+import os, re, time
 import linuxcnc
+
+LOCKFILE = '/home/pktck/linuxcnc_raster.lock'
 
 emc_ini = None
 
@@ -42,3 +44,17 @@ def get_comment(file, lineno):
     if m is not None:
         return m.group(1).strip()
     return ''
+
+
+def set_lock():
+    open(LOCKFILE, 'a').close()
+
+def release_lock():
+    try:
+        os.remove(LOCKFILE)
+    except os.error:
+        pass
+
+def wait_for_lock():
+    while os.path.isfile(LOCKFILE):
+        time.sleep(1)

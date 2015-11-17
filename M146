@@ -1,0 +1,7 @@
+#!/usr/bin/python
+
+import raster_utils
+
+print "waiting for lock"
+raster_utils.wait_for_lock()
+print "here we go"

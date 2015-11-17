@@ -101,6 +101,8 @@ image.save('actual.png')
 # XXX possibly rotate based on axis
 print "image saved"
 
+release_lock()
+
 pix = list(image.getdata())
 
 for y in xrange(0,pix_h):

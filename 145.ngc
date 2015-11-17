@@ -9,6 +9,7 @@ O145 sub
   M145 P[#2] Q[#3]
   M145 P[#4] Q[#13]
   M145 P[#6] Q[#7]
+  M146
   (loop to produce raster scans)
   #20=0
   G0 X[#2-#8] Y[#3]
