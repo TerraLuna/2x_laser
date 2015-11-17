@@ -48,15 +48,15 @@ if False:
 else:
     IMAGE_PATH = ini.find('RASTER', 'IMAGE_PATH')
     if IMAGE_PATH is None:
-	IMAGE_PATH = os.environ['HOME']
+        IMAGE_PATH = os.environ['HOME']
     IMAGE_PATH = IMAGE_PATH.split(os.path.pathsep)
     image_name = None
     for dir in IMAGE_PATH:
-	images = glob.glob(os.path.join(dir, '*-%u.*' % int(P)))
-	if images:
-	    image_name = images[0]
+        images = glob.glob(os.path.join(dir, '*-%u.*' % int(P)))
+        if images:
+            image_name = images[0]
     if image_name is None:
-	image_name = image_not_found(int(P))
+        image_name = image_not_found(int(P))
     print 'image = %s' % image_name
 
 if os.fork():
@@ -79,11 +79,11 @@ else:
 
     # program units are 1:inch, 2:mm, while linear_units are 0:inch, 1:mm
     if stat.program_units == 1 and stat.linear_units == 1:
-	scale = 25.4
+        scale = 25.4
     elif stat.program_units == 2 and stat.linear_units == 0:
-	scale = 1/25.4
+        scale = 1/25.4
     else:
-	scale = 1
+        scale = 1
     X *= scale
     Y *= scale
     W *= scale
@@ -111,40 +111,40 @@ else:
     pix = list(image.getdata())
 
     for y in xrange(0,pix_h):
-	forward = (y & 1) == 0
+        forward = (y & 1) == 0
 
-	# laser is off until cued for this line:
-	if forward:
-	    stream.write('0 1 %0.3f\n' % (origin))
-	else:
-	    stream.write('0 0 %0.3f\n' % (origin + W + x_mmpd))
+        # laser is off until cued for this line:
+        if forward:
+            stream.write('0 1 %0.3f\n' % (origin))
+        else:
+            stream.write('0 0 %0.3f\n' % (origin + W + x_mmpd))
 
-	row = pix[y * pix_w:(y + 1) * pix_w]
-	groups = map(lambda (v,run): (v, len(list(run))), groupby(row))
-	if forward:
-	    x = 0
-	else:
-	    groups.reverse()
-	    x = pix_w
-	for v, run in groups:
-	    if (v <= 127):
-		# off until we hit start / on until end
-		if forward:
-		    stream.write('0 0 %0.3f\n' % (origin + x * x_mmpd))
-		    stream.write('1 0 %0.3f\n' % (origin + (x + run) * x_mmpd))
-		else:
-		    stream.write('0 1 %0.3f\n' % (origin + x * x_mmpd + reverse_fudge))
-		    stream.write('1 1 %0.3f\n' % (origin + (x - run) * x_mmpd + reverse_fudge))
-	    if forward:
-		x += run
-	    else:
-		x -= run
+        row = pix[y * pix_w:(y + 1) * pix_w]
+        groups = map(lambda (v,run): (v, len(list(run))), groupby(row))
+        if forward:
+            x = 0
+        else:
+            groups.reverse()
+            x = pix_w
+        for v, run in groups:
+            if (v <= 127):
+                # off until we hit start / on until end
+                if forward:
+                    stream.write('0 0 %0.3f\n' % (origin + x * x_mmpd))
+                    stream.write('1 0 %0.3f\n' % (origin + (x + run) * x_mmpd))
+                else:
+                    stream.write('0 1 %0.3f\n' % (origin + x * x_mmpd + reverse_fudge))
+                    stream.write('1 1 %0.3f\n' % (origin + (x - run) * x_mmpd + reverse_fudge))
+            if forward:
+                x += run
+            else:
+                x -= run
 
     # finally: laser is off once clearing raster area
     if forward:
-	stream.write('0 0 %0.3f\n' % (origin + W + x_mmpd))
+        stream.write('0 0 %0.3f\n' % (origin + W + x_mmpd))
     else:
-	stream.write('0 1 %0.3f\n' % (origin))
+        stream.write('0 1 %0.3f\n' % (origin))
 
     stream.close()
     streamer.wait()
