@@ -113,8 +113,10 @@ net home-y <= parport.0.pin-15-in
 net din-02 <= parport.0.pin-13-in
 
 net air-assist => parport.0.pin-14-out
+setp parport.0.pin-14-out-invert 1
 
 net fume-extractor => parport.0.pin-16-out
+setp parport.0.pin-16-out-invert 1
 
 net home-x <= parport.0.pin-10-in
 
@@ -299,11 +301,11 @@ net air-assist  <=  timedelay-air-assist.out
 
 setp timedelay-fume-extractor.on-delay 1
 setp timedelay-fume-extractor.off-delay 2
-net spindle-on  =>  timedelay-air-assist.in
+net spindle-on  =>  timedelay-fume-extractor.in
 net fume-extractor  <=  timedelay-fume-extractor.out
 
 setp timedelay-spindle-on-pause.on-delay 3
 setp timedelay-spindle-on-pause.off-delay 0
 
 net spindle-on  =>  timedelay-spindle-on-pause.in
-net spindle-at-speed  =>  timedelay-spindle-on-pause.out
+net spindle-at-speed  <=  timedelay-spindle-on-pause.out
