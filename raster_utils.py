@@ -29,7 +29,7 @@ def recv_params():
     fp = open_raster_fifo('r')
     params = fp.readline().strip()
     fp.close()
-    return map(lambda x: float(x), params.split())
+    return map(float, params.split())
 
 
 def get_comment(file, lineno):
