@@ -50,16 +50,7 @@ if image_name is None:
     image_name = image_not_found(int(P))
 print 'image = %s' % image_name
 
-if os.fork():
-    # parent must wait until child is ready, then exit
-    #...
-    time.sleep(1)
-    sys.exit(0)
 
-os.setsid()
-
-streamer = Popen(['halstreamer'], stdin=PIPE)
-stream = streamer.stdin
 
 image = Image.open(image_name)
 
@@ -102,6 +93,26 @@ image.save('actual.png')
 print "image saved"
 
 pix = list(image.getdata())
+
+
+
+
+
+
+if os.fork():
+    # parent must wait until child is ready, then exit
+    #...
+    time.sleep(1)
+    sys.exit(0)
+
+###############################################################################
+###############################################################################
+###############################################################################
+
+os.setsid()
+
+streamer = Popen(['halstreamer'], stdin=PIPE)
+stream = streamer.stdin
 
 for y in xrange(0,pix_h):
     forward = (y & 1) == 0
